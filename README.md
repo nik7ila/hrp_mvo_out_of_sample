@@ -23,9 +23,9 @@ This notebook evaluates **Minimum Variance Optimization (MVO)** and **Hierarchic
 ---
 
 ## 📊 Performance Metrics
-[Cumulative Returns : Out of sample]('plot/mvo_hrp_outofsample.png')
+[Cumulative Returns : Out of sample](plot/mvo_hrp_outofsample.png)
 
-[Comparision Metrics]('plot/comp_metrics.png')
+[Comparision Metrics](plot/comp_metrics.png)
 
 | Metric                  | MVO     | HRP     |
 |-------------------------|---------|---------|
