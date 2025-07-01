@@ -1,79 +1,80 @@
 # hrp_mvo_out_of_sample
-# Out-of-Sample Evaluation: HRP vs MVO Portfolio Performance
+# Out-of-Sample Portfolio Comparison: MVO vs HRP
 
-##  Objective
+## Project Objective
 
-This study evaluates how two portfolio strategies perform **on future unseen data** (out-of-sample). The aim is to test **generalization** — whether a strategy that performs well in training data continues to do so in real market conditions.
-
-
-
-##  Setup
-
-- **Training Period**: Jan 2015 – Dec 2021  
-- **Testing Period**: Jan 2022 – Jan 2025  
-- **Assets**: AAPL, AMZN, DIS, TSLA  
-- **Optimization Methods**:  
-  - MVO (Mean-Variance Optimization)  
-  - HRP (Hierarchical Risk Parity)
-
-Each strategy was fit on **training data only**, and the resulting portfolio weights were used to simulate **test-period performance**.
+This notebook evaluates **Minimum Variance Optimization (MVO)** and **Hierarchical Risk Parity (HRP)** portfolio strategies on **out-of-sample data**, simulating a more realistic scenario where strategies are trained on historical data and tested on unseen market conditions. The goal is to assess which method is more robust and consistent in real-world, out-of-sample performance.
 
 
-## Out-of-Sample Results
+## ⚙️ Methodology
 
-**Growth of $1 Invested (2022–2025)**
+1. **Train-Test Split**:
+   - **Training Period**: Historical price data used to compute weights.
+   - **Testing Period**: Subsequent period used to simulate actual portfolio performance.
 
-From the plot (`out_of_sample_returns.png`):
+2. **Strategy Implementation**:
+   - **MVO**: Allocates weights to minimize portfolio variance using covariance matrix and expected returns.
+   - **HRP**: Uses hierarchical clustering to allocate capital based on risk structure without requiring matrix inversion.
 
-- **MVO** achieved higher peak returns, but with greater fluctuations.
-- **HRP** delivered smoother growth and lower volatility.
+3. **Backtesting**:
+   - Each portfolio was rebalanced using the weights derived from the training set and applied to the test data.
+   - Results were analyzed through cumulative returns and risk-adjusted metrics.
 
-**Key Metrics (Out-of-Sample)**
+---
 
+## 📊 Performance Metrics
+[Cumulative Returns : Out of sample]('plot/mvo_hrp_outofsample.png')
 
-| Metric               | MVO    | HRP    |
-| -------------------- | ------ | ------ |
-| Cumulative Return    | 25.65% | 3.09%  |
-| Annual Return (CAGR) | 38.95% | 15.15% |
-| Annual Volatility    | 31.95% | 23.67% |
-| Sharpe Ratio         | 1.22   | 0.64   |
-| Max Drawdown         | 65.52% | 42.61% |
+[Comparision Metrics]('plot/comp_metrics.png')
 
+| Metric                  | MVO     | HRP     |
+|-------------------------|---------|---------|
+| Cumulative Return       | 0.51    | 0.13    |
+| Annual Return (CAGR)    | 0.15    | 0.04    |
+| Annual Volatility       | 0.36    | 0.27    |
+| Sharpe Ratio            | 0.42    | 0.15    |
+| Max Drawdown            | -0.52   | -0.46   |
 
+> 📉 Despite outperforming in-sample, MVO shows **significantly reduced performance** in the out-of-sample period. HRP, while more conservative, appears to be **more stable and robust**, especially under volatility and structural changes.
 
-##  Interpretation
+---
 
-| Insight | Observation |
-|--------|-------------|
-| **MVO** | Higher returns, but also exposed to market swings. |
-| **HRP** | More balanced, with smaller drawdowns and smoother path. |
-| **Risk Management** | HRP’s diversification through clustering shows stronger stability during volatile phases. |
-| **Forecast Dependency** | MVO’s sensitivity to forecast errors affected out-of-sample resilience. |
+## 🧠 Key Learnings
 
+- **In-Sample ≠ Real-World**: MVO may look superior in-sample but suffers from high sensitivity to input errors, particularly expected returns.
+- **HRP’s Strength**: HRP avoids inverting the covariance matrix, which makes it **less sensitive to estimation noise** and better suited for out-of-sample robustness.
+- **Sharpe vs Drawdown**: Although MVO had a higher Sharpe, it also experienced higher drawdowns. HRP maintained **better capital preservation**.
 
+---
 
-## Consultant Takeaway
+## 🧪 Tools & Libraries
 
-> “When markets behave as forecasted, MVO wins. But when uncertainty rises, HRP survives.”
+- `pandas`, `numpy`, `matplotlib`, `seaborn`
+- `scikit-learn` for clustering (HRP)
+- `cvxpy` for MVO optimization
 
-In real-world asset management:
-- **Consistency** often beats **max return**.
-- Robust strategies like HRP offer peace of mind through lower risk exposure.
-- Portfolio selection should consider **client risk profile**, **market regime**, and **long-term goals**.
+---
 
+## 💼 Consultant Insights
 
+In a professional setting, this study shows the importance of validating portfolio strategies not just on historical performance, but in forward-looking simulations. While MVO may impress in backtests, HRP provides a **more dependable framework** under uncertainty, which aligns better with risk-conscious investment mandates.
 
-##  Files Included
+---
 
-- `hrp_mvo_out_of_sample.ipynb` — Full test notebook  
-- `plots/` — Return chart  
-- `hrp_mvo_out_of_sample/README.md` — This file  
+## 🔄 Next Steps
 
+- Expand the out-of-sample period for a longer validation.
+- Incorporate **rolling rebalancing** and **transaction costs**.
+- Compare other risk-based methods such as **Risk Parity** or **Volatility Weighted** portfolios.
 
+---
 
-##  Suggested Next Steps
+## 🤖 AI-Assisted Workflow
 
-- Conduct **rolling-window backtests** for better robustness checks.
-- Compare with **Volatility Weighted (VW)** and **Risk Parity** approaches.
-- Prepare a presentation deck for client-facing summary.
+This project leveraged AI tools to:
+- Understand core differences between MVO and HRP.
+- Debug and correct optimization pipeline issues.
+- Interpret results from a consultant-friendly perspective.
+
+---
 
